@@ -1,0 +1,149 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <button type="button" class="btn btn-default" (click)="update_content(1)">Nova Turma</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+
+        <div class="card-header border-0">
+          <h3 class="mb-0">{{content_title}}</h3>
+        </div>
+        <form *ngIf="action_template==1 || action_template==2 then">
+            <div class="row container-fluid" >
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="nomeTurma" id="nomeTurma" [(ngModel)]="turma.nome"  placeholder="Nome">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <input type="text" placeholder="Serie" name="serieTurma" id="serieTurma" *ngIf="action_template==1" class="form-control" [(ngModel)]="turma.serie" >
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="resultado" >
+              <div class="container">
+                <div class="alert alert-success" role="alert">
+                  {{resultado}}
+                </div>
+              </div>
+
+            </div>
+            <div class="row container-fluid">
+              <div class="col-md-4"></div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-danger" (click)="update_content(0)">Fechar</button>
+                <button type="button" class="btn btn-success" (click)="save_turma()">Salvar</button>
+              </div>
+              <hr>
+            </div>
+
+        </form>
+
+
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col">Serie</th>
+                <th scope="col">Data Reg</th>
+                <th scope="col">Users</th>
+                <th scope="col">Operações</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr >
+                <td>
+                  <div class="form-group">
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                      </div>
+                      <input class="form-control" [(ngModel)]="nome_turmaFiltro" (keyup)="getAllTurma()" placeholder="Pesquisar por nome" type="text">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group">
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                      </div>
+                      <input class="form-control" [(ngModel)]="serie_turmaFiltro" (keyup)="getAllTurma()" placeholder="Pesquisar por serie" type="text">
+                    </div>
+                  </div>
+                </td>
+            </tr>
+              <tr *ngFor="let t of list_turma">
+                <th scope="row">
+                  {{t.nome}}
+                </th>
+                <td>
+                  {{t.serie}}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    {{t.data_reg}}
+                  </span>
+                </td>
+                <td>
+                  <div class="avatar-group">
+                    <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">
+                      <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">
+                    </a>
+                  </div>
+                </td>
+
+                <td class="text-right">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="showTurmaInForm(t.id)">Alterar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="excluir_turma(t.id)">Eliminar</button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="javascript:void(0)">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fas fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

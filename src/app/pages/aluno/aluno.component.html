@@ -1,0 +1,168 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <button type="button" class="btn btn-default" (click)="update_content(1)">Novo Aluno</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+
+        <div class="card-header border-0">
+          <h3 class="mb-0">{{content_title}}
+            <div class="container"  *ngIf="action_template==0" >
+              <div class="col-md-4" style="background-color: #eaeaea ;"><b>Filtrar por Tuma:</b></div>
+              <select class="form-control col-md-4" (change)="getAlunoTurma()"  name="id_turmaFiltro" id="id_turmaFiltro" [(ngModel)]="id_turmaFiltro">
+                <option value="0">Todas</option>
+                <option  *ngFor="let t of list_turma"  value="{{t.id}}" >
+                  {{t.nome}}
+                </option>
+              </select>
+            </div>
+
+        </h3>
+
+
+        </div>
+        <form *ngIf="action_template==1 || action_template==2 then">
+            <div class="row container-fluid" >
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <input type="text" class="form-control" name="nomeAluno" id="nomeAluno" [(ngModel)]="aluno.nome"  placeholder="Nome">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" placeholder="Email" name="emailAluno" id="emailAluno" class="form-control" [(ngModel)]="aluno.email" >
+                </div>
+              </div>
+              <div class="col-lg-6" *ngIf="action_template==1">
+                <div class="form-group">
+                  <label>Turma: {{aluno.id_turma}}</label>
+                  <select class="form-control"  name="id_turma" id="id_turma" [(ngModel)]="aluno.id_turma">
+                      <option  *ngFor="let t of list_turma"  value="{{t.id}}" >
+                        {{t.nome}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Data Nascimento:</label>
+                  <input class="form-control datepicker" placeholder="data nascimento" name="dp" [(ngModel)]="aluno.data_nasc" type="date"/>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="resultado" >
+              <div class="container">
+                <div class="alert alert-success" role="alert">
+                  {{resultado}}
+                </div>
+              </div>
+
+            </div>
+            <div class="row container-fluid">
+              <div class="col-md-4"></div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-danger" (click)="update_content(0)">Fechar</button>
+                <button type="button" class="btn btn-success" (click)="save_aluno()">Salvar</button>
+              </div>
+              <hr>
+            </div>
+
+        </form>
+
+
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Data Nasc</th>
+                <th scope="col">Turma</th>
+                <th scope="col">Operações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngIf="id_turmaFiltro>0 then">
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+                        </div>
+                        <input class="form-control" [(ngModel)]="nome_alunoFiltro" (keyup)="getAlunoTurma()" placeholder="Pesquisar por nome" type="text">
+                      </div>
+                    </div>
+                  </td>
+              </tr>
+              <tr *ngFor="let a of list_aluno">
+                <th scope="row">
+                  {{a.nome}}
+                </th>
+                <td>
+                  {{a.email}}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    {{a.data_nasc}}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    {{a.nome_turma}}
+                  </span>
+                </td>
+
+                <td class="text-right">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="showAlunoInForm(a.id)">Alterar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="excluir_aluno(a.id)">Eliminar</button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="javascript:void(0)">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fas fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,134 @@
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <button type="button" class="btn btn-default" (click)="update_content(1)">Nova Transferencia</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+
+        <div class="card-header border-0">
+          <h3 class="mb-0">{{content_title}}
+        </h3>
+        </div>
+        <form *ngIf="action_template==1">
+            <div class="row container-fluid" >
+              <div class="col-lg-6" >
+                <div class="form-group">
+                  <label>Aluno: </label>
+                  <select required="true" class="form-control"  name="id_aluno" id="id_aluno" [(ngModel)]="tranferencia.id_aluno">
+                    <option>Selecione uma opção</option>
+                      <option  *ngFor="let a of list_aluno"  value="{{a.id}}" >
+                        {{a.nome+"  | Turma:"+a.nome_turma}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-6" >
+                <div class="form-group">
+                  <label>Turma Destino:</label>
+                  <select required class="form-control"  name="id_turma" id="id_turma" [(ngModel)]="tranferencia.id_turma_destino">
+                    <option>Selecione uma opção</option>
+                      <option  *ngFor="let t of list_turma"  value="{{t.id}}" >
+                        {{t.nome}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+            <div class="row" *ngIf="resultado" >
+              <div class="container">
+                <div class="alert alert-success" role="alert">
+                  {{resultado}}
+                </div>
+              </div>
+
+            </div>
+            <div class="row container-fluid">
+              <div class="col-md-4"></div>
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-danger" (click)="update_content(0)">Fechar</button>
+                <button type="button" class="btn btn-success" (click)="save_transferencia()">Salvar</button>
+              </div>
+              <hr>
+            </div>
+
+        </form>
+
+
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Aluno</th>
+                <th scope="col">Transf. Para</th>
+                <th scope="col">Data Reg</th>
+                <th scope="col">Operações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let a of list_tranferencia">
+                <th scope="row">
+                  {{a.nome_aluno}}
+                </th>
+                <td>
+                  {{a.nome_turma_destino}}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    {{a.data_reg}}
+                  </span>
+                </td>
+
+                <td class="text-right">
+                  <button type="button" class="btn btn-danger btn-sm" (click)="excluir_transferencia(a.id)">Eliminar</button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="javascript:void(0)">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fas fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
